@@ -7,7 +7,15 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import type { LinksFunction } from "@remix-run/node";
+
 import { Theme } from "@radix-ui/themes";
+
+import appStylesHref from "./styles.css?url";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: appStylesHref },
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
