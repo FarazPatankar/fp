@@ -7,9 +7,11 @@ import {
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
+import tailwindStylesHref from "./tailwind.css?url";
 import appStylesHref from "./styles.css?url";
 
 export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: tailwindStylesHref },
   { rel: "stylesheet", href: appStylesHref },
 ];
 
