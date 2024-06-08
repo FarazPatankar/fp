@@ -4,6 +4,7 @@ import {
   BubbleMenu,
   Extensions,
   PureEditorContent,
+  Content,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -16,9 +17,10 @@ const extensions: Extensions = [
   Placeholder.configure({ placeholder: "Start writing..." }),
 ];
 
-const content = "<p>Hello World!</p>";
-
-export const useEditor = () => {
+interface EditorProps {
+  content: Content;
+}
+export const useEditor = ({ content }: EditorProps) => {
   const editor = useTiptapEditor({
     extensions,
     content,
@@ -27,19 +29,24 @@ export const useEditor = () => {
   return editor;
 };
 
-const Tiptap = () => {
-  const editor = useEditor();
+interface TiptapProps extends EditorProps {
+  onSave: (html: string) => void;
+}
+const Tiptap = ({ content, onSave }: TiptapProps) => {
+  const editor = useEditor({ content });
   const editorRef = useRef<PureEditorContent | null>(null);
 
   if (!editor) {
     return null;
   }
 
-  const onSave = () => {
+  const onClickSave = () => {
     console.log("onSave", {
       html: editor.getHTML(),
       json: editor.getJSON(),
     });
+
+    onSave(editor.getHTML());
   };
 
   return (
@@ -48,7 +55,7 @@ const Tiptap = () => {
         <Text size="6" weight="bold">
           Scratchpad
         </Text>
-        <Button type="button" onClick={onSave}>
+        <Button type="button" onClick={onClickSave}>
           Save
         </Button>
       </Flex>
