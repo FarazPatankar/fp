@@ -12,7 +12,6 @@
     "typegen": "pocketbase-typegen --env --out app/lib/pocketbase/db-types.ts"
   },
   "dependencies": {
-    "@radix-ui/themes": "^3.0.5",
     "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.2",
     "@remix-run/serve": "^2.9.2",

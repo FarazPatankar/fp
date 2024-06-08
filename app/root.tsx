@@ -1,5 +1,3 @@
-import "@radix-ui/themes/styles.css";
-
 import {
   Links,
   Meta,
@@ -8,8 +6,6 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-
-import { Theme } from "@radix-ui/themes";
 
 import appStylesHref from "./styles.css?url";
 
@@ -27,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Theme>{children}</Theme>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>

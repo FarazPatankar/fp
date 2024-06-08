@@ -1,9 +1,8 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Flex, Heading, Link, Text } from "@radix-ui/themes";
 
 import { getEntries } from "~/lib/pocketbase";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,24 +21,16 @@ const Home = () => {
   const { entries } = useLoaderData<typeof loader>();
 
   return (
-    <Flex
-      direction="column"
-      gap="4"
-      maxWidth="1024px"
-      width="100%"
-      mx="auto"
-      my="8"
-      align="start"
-    >
-      <Heading>Posts</Heading>
-      <Flex direction="column" gap="4">
+    <div>
+      <h2>Posts</h2>
+      <div>
         {entries.map(entry => (
-          <Link key={entry.id} href={`/posts/${entry.slug}`}>
+          <Link key={entry.id} to={`/posts/${entry.slug}`}>
             {entry.title}
           </Link>
         ))}
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
 
