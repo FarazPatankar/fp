@@ -25,6 +25,11 @@ export const useEditor = ({ content, editable = false }: EditorProps) => {
     extensions,
     content,
     editable,
+    editorProps: {
+      attributes: {
+        class: "prose prose-slate dark:prose-invert",
+      },
+    },
   });
 
   return editor;
@@ -52,16 +57,8 @@ const Tiptap = ({ onSave, ...args }: TiptapProps) => {
 
   return (
     <>
-      <div>
-        <p>Scratchpad</p>
-        <button type="button" onClick={onClickSave}>
-          Save
-        </button>
-      </div>
-      <div>
-        <EditorContent editor={editor} ref={editorRef} />
-        <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
-      </div>
+      <EditorContent editor={editor} ref={editorRef} />
+      <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
     </>
   );
 };

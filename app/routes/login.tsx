@@ -1,5 +1,8 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 import { authenticator } from "~/lib/auth/auth.server";
 
@@ -27,14 +30,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 const Login = () => {
   return (
-    <Form method="post">
-      <input
-        type="password"
-        name="password"
-        autoComplete="current-password"
-        required
-      />
-      <button>Sign In</button>
+    <Form method="post" className="grid items-center gap-1.5">
+      <Label htmlFor="password">Password</Label>
+      <Input type="password" id="password" placeholder="SuperSecretPassword" />
+      <Button>Sign in</Button>
     </Form>
   );
 };

@@ -3,6 +3,8 @@ import { json } from "@remix-run/node";
 
 import { getEntries } from "~/lib/pocketbase";
 import { Link, useLoaderData } from "@remix-run/react";
+import { H2 } from "~/components/ui/typography";
+import { Button } from "~/components/ui/button";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,12 +24,14 @@ const Home = () => {
 
   return (
     <div>
-      <h2>Posts</h2>
+      <H2>Posts</H2>
       <div>
         {entries.map(entry => (
-          <Link key={entry.id} to={`/posts/${entry.slug}`}>
-            {entry.title}
-          </Link>
+          <Button variant="link" className="p-0" asChild>
+            <Link key={entry.id} to={`/posts/${entry.slug}`}>
+              {entry.title}
+            </Link>
+          </Button>
         ))}
       </div>
     </div>

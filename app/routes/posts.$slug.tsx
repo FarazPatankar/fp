@@ -2,6 +2,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 
 import Tiptap from "~/components/TipTap";
+import { H2 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
 import { getEntry, updateEntry } from "~/lib/pocketbase";
 
@@ -42,6 +43,7 @@ const Post = () => {
 
   return (
     <div>
+      <H2>{entry.title}</H2>
       <Tiptap
         content={entry.content}
         onSave={onSave}
