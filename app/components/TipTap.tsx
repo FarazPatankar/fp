@@ -19,11 +19,13 @@ const extensions: Extensions = [
 
 interface EditorProps {
   content: Content;
+  editable?: boolean;
 }
-export const useEditor = ({ content }: EditorProps) => {
+export const useEditor = ({ content, editable = false }: EditorProps) => {
   const editor = useTiptapEditor({
     extensions,
     content,
+    editable,
   });
 
   return editor;
@@ -32,8 +34,8 @@ export const useEditor = ({ content }: EditorProps) => {
 interface TiptapProps extends EditorProps {
   onSave: (html: string) => void;
 }
-const Tiptap = ({ content, onSave }: TiptapProps) => {
-  const editor = useEditor({ content });
+const Tiptap = ({ onSave, ...args }: TiptapProps) => {
+  const editor = useEditor(args);
   const editorRef = useRef<PureEditorContent | null>(null);
 
   if (!editor) {

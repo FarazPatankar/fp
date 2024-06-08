@@ -5,6 +5,10 @@ const envSchema = z.object({
   PB_TYPEGEN_URL: z.string(),
   PB_TYPEGEN_EMAIL: z.string().email(),
   PB_TYPEGEN_PASSWORD: z.string(),
+
+  // Auth
+  SESSION_SECRET: z.string(),
+  ADMIN_PASSWORD: z.string(),
 });
 
 const env = envSchema.safeParse(process.env);

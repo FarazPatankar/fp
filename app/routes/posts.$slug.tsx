@@ -1,6 +1,8 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
+
 import Tiptap from "~/components/TipTap";
+import { authenticator } from "~/lib/auth/auth.server";
 import { getEntry, updateEntry } from "~/lib/pocketbase";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -14,22 +16,21 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return null;
 };
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (params.slug === undefined) throw new Error("No slug provided");
 
   const entry = await getEntry(params.slug);
+  const isAuthenticated = await authenticator.isAuthenticated(request);
 
-  return json({ entry });
+  return json({ entry, isAuthenticated: isAuthenticated != null });
 };
 
 const Post = () => {
-  const { entry } = useLoaderData<typeof loader>();
+  const { entry, isAuthenticated } = useLoaderData<typeof loader>();
 
   const submit = useSubmit();
 
   const onSave = (html: string) => {
-    console.log("onSave", html);
-
     submit(
       {
         id: entry.id,
@@ -41,7 +42,11 @@ const Post = () => {
 
   return (
     <div>
-      <Tiptap content={entry.content} onSave={onSave} />
+      <Tiptap
+        content={entry.content}
+        onSave={onSave}
+        editable={isAuthenticated}
+      />
     </div>
   );
 };
