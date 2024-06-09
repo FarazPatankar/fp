@@ -1,10 +1,13 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
+import { Suspense, lazy, useState } from "react";
 
-import Tiptap from "~/components/TipTap";
+import { Button } from "~/components/ui/button";
 import { H2 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
 import { getEntry, updateEntry } from "~/lib/pocketbase";
+
+const Tiptap = lazy(() => import("~/components/TipTap"));
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();
@@ -28,6 +31,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
 const Post = () => {
   const { entry, isAuthenticated } = useLoaderData<typeof loader>();
+  const [isEditing, setIsEditing] = useState(false);
 
   const submit = useSubmit();
 
@@ -42,13 +46,28 @@ const Post = () => {
   };
 
   return (
-    <div>
-      <H2>{entry.title}</H2>
-      <Tiptap
-        content={entry.content}
-        onSave={onSave}
-        editable={isAuthenticated}
-      />
+    <div className="grid gap-4">
+      <div className="flex justify-between items-center">
+        <H2>{entry.title}</H2>
+        <Button type="button" onClick={() => setIsEditing(!isEditing)}>
+          {isEditing ? "Cancel" : "Edit"}
+        </Button>
+      </div>
+
+      {isEditing ? (
+        <Suspense>
+          <Tiptap
+            content={entry.content}
+            onSave={onSave}
+            editable={isEditing}
+          />
+        </Suspense>
+      ) : (
+        <article
+          className="prose prose-slate dark:prose-invert"
+          dangerouslySetInnerHTML={{ __html: entry.content }}
+        />
+      )}
     </div>
   );
 };
