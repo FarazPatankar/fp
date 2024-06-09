@@ -1,5 +1,15 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  json,
+} from "@remix-run/node";
+import {
+  useFetcher,
+  useLoaderData,
+  useNavigate,
+  useSubmit,
+} from "@remix-run/react";
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -8,23 +18,48 @@ import typescript from "highlight.js/lib/languages/typescript";
 
 hljs.registerLanguage("typescript", typescript);
 
-// import Editor from "~/components/editor/advanced-editor";
-
-import { Button } from "~/components/ui/button";
 import { H2 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
 import { getEntry, updateEntry } from "~/lib/pocketbase";
+import { EntryInfoForm, handleInfoUpdate } from "~/components/EntryInfoForm";
 
-const Tiptap = lazy(() => import("~/components/TipTap"));
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();
 
-  const id = body.get("id") as string;
-  const content = body.get("content") as string;
+  const intent = body.get("intent") as string;
+  console.log("intent: ", {
+    intent,
+    body,
+  });
 
-  await updateEntry({ id, content });
+  if (intent == null) {
+    return null;
+  }
+
+  if (intent === "content") {
+    const id = body.get("id") as string;
+    const content = body.get("content") as string;
+
+    await updateEntry({ id, args: { content } });
+    return null;
+  }
+
+  console.log("intent: ", intent);
+  const id = body.get("id") as string;
+  const title = body.get("title") as string;
+  const description = body.get("description") as string;
+  const category = body.get("category") as string;
+
+  await updateEntry({
+    id,
+    args: {
+      title,
+      category,
+      meta: { description },
+    },
+  });
 
   return null;
 };
@@ -36,6 +71,14 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const isAuthenticated = await authenticator.isAuthenticated(request);
 
   return json({ entry, isAuthenticated: isAuthenticated != null });
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (data == null) {
+    return [];
+  }
+
+  return [{ title: data.entry.title }];
 };
 
 const Post = () => {
@@ -51,6 +94,7 @@ const Post = () => {
       {
         id: entry.id,
         content: html,
+        intent: "content",
       },
       { method: "post" },
     );
@@ -111,10 +155,13 @@ const Post = () => {
     hljs.highlightAll();
   }, [isEditing]);
 
+  useFetcher();
+
   return (
     <div className="grid gap-4 relative">
       <div className="flex justify-between items-center">
         <H2>{entry.title}</H2>
+        {!isEditing && <EntryInfoForm entry={entry} />}
       </div>
 
       {isEditing ? (
@@ -129,7 +176,7 @@ const Post = () => {
         </Suspense>
       ) : (
         <article
-          className="prose prose-slate dark:prose-invert"
+          className="prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full"
           dangerouslySetInnerHTML={{ __html: entry.content }}
         />
       )}

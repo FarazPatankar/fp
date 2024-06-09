@@ -34,9 +34,10 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export type EntriesRecord = {
+export type EntriesRecord<Tmeta = unknown> = {
 	category: string
 	content: HTMLString
+	meta?: null | Tmeta
 	slug: string
 	title: string
 }
@@ -47,7 +48,7 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
-export type EntriesResponse<Texpand = unknown> = Required<EntriesRecord> & BaseSystemFields<Texpand>
+export type EntriesResponse<Tmeta = unknown, Texpand = unknown> = Required<EntriesRecord<Tmeta>> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions

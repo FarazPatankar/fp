@@ -1,6 +1,6 @@
 import PocketBase from "pocketbase";
 import { envs } from "../env";
-import { Collections, EntriesResponse } from "./db-types";
+import { Collections, EntriesRecord, EntriesResponse } from "./db-types";
 
 let pb: PocketBase | null = null;
 
@@ -32,10 +32,10 @@ export const getEntry = async (slug: string) => {
 
 export const updateEntry = async ({
   id,
-  content,
+  args,
 }: {
   id: string;
-  content: string;
+  args: Partial<EntriesRecord>;
 }) => {
   const pb = getPocketBaseClient();
   await pb.admins.authWithPassword(
@@ -43,9 +43,7 @@ export const updateEntry = async ({
     envs.PB_TYPEGEN_PASSWORD,
   );
 
-  const entry = await pb
-    .collection(Collections.Entries)
-    .update(id, { content });
+  const entry = await pb.collection(Collections.Entries).update(id, args);
 
   return entry;
 };

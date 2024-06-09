@@ -46,7 +46,8 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   return (
     <EditorRoot>
       <EditorContent
-        className="border p-4 rounded-xl"
+        autofocus="start"
+        className="border p-4 rounded-md"
         {...(initialContent && { initialContent })}
         extensions={extensions}
         editorProps={{
