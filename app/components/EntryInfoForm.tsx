@@ -1,4 +1,6 @@
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
+import { useMemo } from "react";
+import { LoaderCircle } from "lucide-react";
 
 import { EntriesResponse } from "~/lib/pocketbase/db-types";
 
@@ -15,6 +17,13 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 
 export const EntryInfoForm = ({ entry }: { entry: EntriesResponse }) => {
+  const { state } = useNavigation();
+
+  const isLoading = useMemo(
+    () => state === "loading" || state === "submitting",
+    [state],
+  );
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -30,7 +39,7 @@ export const EntryInfoForm = ({ entry }: { entry: EntriesResponse }) => {
           </SheetDescription>
         </SheetHeader>
 
-        <Form method="POST" className="my-6 grid gap-4" reloadDocument>
+        <Form method="POST" className="my-6 grid gap-4">
           <div className="grid gap-1.5">
             <Label htmlFor="title">Title</Label>
             <Input id="title" name="title" defaultValue={entry.title} />
@@ -65,7 +74,11 @@ export const EntryInfoForm = ({ entry }: { entry: EntriesResponse }) => {
             className="max-w-max"
             name="intent"
             value="info"
+            disabled={isLoading}
           >
+            {isLoading && (
+              <LoaderCircle className="animate-spin h-4 w-4 mr-2" />
+            )}
             Update
           </Button>
         </Form>

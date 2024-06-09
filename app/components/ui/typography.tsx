@@ -10,7 +10,7 @@ const H1 = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
+        "text-4xl font-extrabold tracking-tight lg:text-5xl",
         props.className,
       )}
     >
@@ -105,11 +105,7 @@ const P = forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >((props, ref) => {
   return (
-    <p
-      {...props}
-      ref={ref}
-      className={cn("leading-7 [&:not(:first-child)]:mt-6", props.className)}
-    >
+    <p {...props} ref={ref} className={cn("leading-7", props.className)}>
       {props.children}
     </p>
   );

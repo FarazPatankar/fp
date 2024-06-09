@@ -25,6 +25,14 @@ export const Nav = () => {
             Posts
           </NavigationMenuLink>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            active={pathname.includes("/recipes")}
+            href="/recipes"
+          >
+            Recipes
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );

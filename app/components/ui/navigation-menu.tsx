@@ -85,7 +85,7 @@ const NavigationMenuLink = React.forwardRef<
   <NavigationMenuPrimitive.Link
     ref={ref}
     className={cn(
-      "text-sm text-muted-foreground",
+      "text-sm text-muted-foreground hover:underline",
       active && "text-primary",
       className,
     )}

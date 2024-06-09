@@ -5,12 +5,13 @@ import {
   json,
 } from "@remix-run/node";
 import {
-  useFetcher,
+  useActionData,
   useLoaderData,
   useNavigate,
+  useNavigation,
   useSubmit,
 } from "@remix-run/react";
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import hljs from "highlight.js";
@@ -18,21 +19,17 @@ import typescript from "highlight.js/lib/languages/typescript";
 
 hljs.registerLanguage("typescript", typescript);
 
-import { H1, H2 } from "~/components/ui/typography";
+import { H1 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
 import { getEntry, updateEntry } from "~/lib/pocketbase";
-import { EntryInfoForm, handleInfoUpdate } from "~/components/EntryInfoForm";
+import { EntryInfoForm } from "~/components/EntryInfoForm";
 
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request, params }: ActionFunctionArgs) => {
   const body = await request.formData();
 
   const intent = body.get("intent") as string;
-  console.log("intent: ", {
-    intent,
-    body,
-  });
 
   if (intent == null) {
     return null;
@@ -43,10 +40,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const content = body.get("content") as string;
 
     await updateEntry({ id, args: { content } });
-    return null;
+    return json({ success: true });
   }
 
-  console.log("intent: ", intent);
   const id = body.get("id") as string;
   const title = body.get("title") as string;
   const description = body.get("description") as string;
@@ -61,7 +57,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   });
 
-  return null;
+  return json({ success: true });
 };
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -121,7 +117,6 @@ const Post = () => {
 
         setIsEditing(true);
         toast.info("Edit mode enabled", {
-          duration: Infinity,
           description: "Cmd + E to exit. Cmd + S to save.",
         });
       }
@@ -131,7 +126,6 @@ const Post = () => {
 
         onSave(value);
 
-        setIsEditing(false);
         toast.success("Content saved", {
           description: "Content has been saved successfully.",
         });
@@ -149,12 +143,17 @@ const Post = () => {
   }, [isEditing, value]);
 
   useEffect(() => {
-    if (isEditing) {
-      return;
-    }
-
     hljs.highlightAll();
   }, [isEditing]);
+
+  const { state } = useNavigation();
+  const data = useActionData<typeof action>();
+
+  useEffect(() => {
+    if (state === "idle" && data?.success) {
+      setIsEditing(false);
+    }
+  }, [state, data]);
 
   return (
     <div className="grid gap-8 relative">

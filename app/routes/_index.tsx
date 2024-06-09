@@ -3,34 +3,34 @@ import { json } from "@remix-run/node";
 
 import { getEntries } from "~/lib/pocketbase";
 import { Link, useLoaderData } from "@remix-run/react";
-import { H2 } from "~/components/ui/typography";
+import { H1, H2, P } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
+import { Separator } from "~/components/ui/separator";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Scratchpad" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Faraz Patankar" },
+    { name: "description", content: "I build stuff!" },
   ];
 };
 
-export const loader = async () => {
-  const entries = await getEntries();
-
-  return json({ entries });
-};
-
 const Home = () => {
-  const { entries } = useLoaderData<typeof loader>();
-
   return (
-    <div>
-      <H2>Posts</H2>
-      <div>
-        {entries.map(entry => (
-          <Button key={entry.id} variant="link" className="p-0" asChild>
-            <Link to={`/posts/${entry.slug}`}>{entry.title}</Link>
-          </Button>
-        ))}
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <H1>Faraz Patankar</H1>
+        <P>I build stuff.</P>
+      </div>
+
+      <Separator />
+      <div className="flex items-center space-x-2 h-8">
+        <Button variant="link" className="p-0" asChild>
+          <Link to={`https://github.com/FarazPatankar`}>GitHub</Link>
+        </Button>
+        <Separator orientation="vertical" />
+        <Button variant="link" className="p-0" asChild>
+          <Link to={`https://x.com/farazpatankar`}>Twitter</Link>
+        </Button>
       </div>
     </div>
   );
