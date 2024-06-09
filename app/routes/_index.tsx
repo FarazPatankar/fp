@@ -27,10 +27,8 @@ const Home = () => {
       <H2>Posts</H2>
       <div>
         {entries.map(entry => (
-          <Button variant="link" className="p-0" asChild>
-            <Link key={entry.id} to={`/posts/${entry.slug}`}>
-              {entry.title}
-            </Link>
+          <Button key={entry.id} variant="link" className="p-0" asChild>
+            <Link to={`/posts/${entry.slug}`}>{entry.title}</Link>
           </Button>
         ))}
       </div>

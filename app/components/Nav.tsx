@@ -9,7 +9,6 @@ import {
 export const Nav = () => {
   const { pathname } = useLocation();
 
-  console.log(pathname);
   return (
     <NavigationMenu>
       <NavigationMenuList className="space-x-4">

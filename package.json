@@ -12,6 +12,7 @@
     "typegen": "pocketbase-typegen --env --out app/lib/pocketbase/db-types.ts"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.0.18",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.4",

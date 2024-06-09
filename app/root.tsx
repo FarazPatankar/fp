@@ -1,3 +1,4 @@
+import "@fontsource-variable/inter/wght.css";
 import {
   Links,
   Meta,
