@@ -6,6 +6,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
+import { Toaster } from "sonner";
 
 import tailwindStylesHref from "./tailwind.css?url";
 import appStylesHref from "./styles.css?url";
@@ -26,6 +27,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="max-w-2xl mx-auto my-16">{children}</div>
+        <Toaster />
+
+        {/* Remix */}
         <ScrollRestoration />
         <Scripts />
       </body>

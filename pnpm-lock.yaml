@@ -59,6 +59,9 @@ dependencies:
   remix-auth-form:
     specifier: ^1.5.0
     version: 1.5.0(@remix-run/server-runtime@2.9.2)(remix-auth@3.7.0)
+  sonner:
+    specifier: ^1.5.0
+    version: 1.5.0(react-dom@18.2.0)(react@18.2.0)
   tailwind-merge:
     specifier: ^2.3.0
     version: 2.3.0
@@ -6671,6 +6674,16 @@ packages:
       smart-buffer: 4.2.0
     dev: true
     optional: true
+
+  /sonner@1.5.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-FBjhG/gnnbN6FY0jaNnqZOMmB73R+5IiyYAw8yBj7L54ER7HB3fOSE5OFiQiE2iXWxeXKvg6fIP4LtVppHEdJA==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}

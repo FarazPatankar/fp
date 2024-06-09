@@ -18,6 +18,7 @@ authenticator.use(
     const password = form.get("password");
 
     if (password !== envs.ADMIN_PASSWORD) {
+      console.log("Invalid password");
       throw new AuthorizationError("Invalid password");
     }
 

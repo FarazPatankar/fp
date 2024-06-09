@@ -1,6 +1,7 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { useLoaderData, useSubmit } from "@remix-run/react";
-import { Suspense, lazy, useState } from "react";
+import { useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "~/components/ui/button";
 import { H2 } from "~/components/ui/typography";
@@ -31,10 +32,11 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
 const Post = () => {
   const { entry, isAuthenticated } = useLoaderData<typeof loader>();
+  const navigate = useNavigate();
+
   const [isEditing, setIsEditing] = useState(false);
 
   const submit = useSubmit();
-
   const onSave = (html: string) => {
     submit(
       {
@@ -45,13 +47,47 @@ const Post = () => {
     );
   };
 
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "e" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+
+        if (!isAuthenticated) {
+          toast.info("Edit mode is disabled", {
+            description:
+              "Please login to enable edit mode. Cmd + Shift + L to login.",
+          });
+          return;
+        }
+
+        if (isEditing) {
+          setIsEditing(false);
+          toast.dismiss();
+          return;
+        }
+
+        setIsEditing(true);
+        toast.info("Edit mode enabled", {
+          duration: Infinity,
+          description: "Cmd + E to exit. Cmd + S to save.",
+        });
+      }
+
+      if (e.key === "l" && (e.metaKey || e.ctrlKey) && e.shiftKey) {
+        e.preventDefault();
+        navigate(`/login?redirect=/posts/${entry.slug}`);
+      }
+    };
+
+    document.addEventListener("keydown", down);
+
+    return () => document.removeEventListener("keydown", down);
+  }, [isEditing]);
+
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-4 relative">
       <div className="flex justify-between items-center">
         <H2>{entry.title}</H2>
-        <Button type="button" onClick={() => setIsEditing(!isEditing)}>
-          {isEditing ? "Cancel" : "Edit"}
-        </Button>
       </div>
 
       {isEditing ? (
@@ -60,6 +96,7 @@ const Post = () => {
             content={entry.content}
             onSave={onSave}
             editable={isEditing}
+            setIsEditing={setIsEditing}
           />
         </Suspense>
       ) : (
