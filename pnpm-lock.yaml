@@ -89,18 +89,12 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
-  react-hook-form:
-    specifier: ^7.51.5
-    version: 7.51.5(react@18.2.0)
   remix-auth:
     specifier: ^3.7.0
     version: 3.7.0(@remix-run/react@2.9.2)(@remix-run/server-runtime@2.9.2)
   remix-auth-form:
     specifier: ^1.5.0
     version: 1.5.0(@remix-run/server-runtime@2.9.2)(remix-auth@3.7.0)
-  remix-hook-form:
-    specifier: ^4.3.1
-    version: 4.3.1(@remix-run/react@2.9.2)(react-dom@18.2.0)(react-hook-form@7.51.5)(react@18.2.0)
   sonner:
     specifier: ^1.5.0
     version: 1.5.0(react-dom@18.2.0)(react@18.2.0)
@@ -7609,20 +7603,6 @@ packages:
       '@remix-run/react': 2.9.2(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
       '@remix-run/server-runtime': 2.9.2(typescript@5.1.6)
       uuid: 8.3.2
-    dev: false
-
-  /remix-hook-form@4.3.1(@remix-run/react@2.9.2)(react-dom@18.2.0)(react-hook-form@7.51.5)(react@18.2.0):
-    resolution: {integrity: sha512-6MO2amNTDe0t6j2msmkwCcHpMmDBXK8IbwHQcHWfgm82wCrIcWkM0DCtnC/ISfyyPv7EBhKYK5gSUUM9WalHcw==}
-    peerDependencies:
-      '@remix-run/react': ^2.0.0
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      react-hook-form: ^7.51.0
-    dependencies:
-      '@remix-run/react': 2.9.2(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-hook-form: 7.51.5(react@18.2.0)
     dev: false
 
   /require-like@0.1.2:

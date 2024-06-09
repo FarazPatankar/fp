@@ -18,7 +18,7 @@ import typescript from "highlight.js/lib/languages/typescript";
 
 hljs.registerLanguage("typescript", typescript);
 
-import { H2 } from "~/components/ui/typography";
+import { H1, H2 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
 import { getEntry, updateEntry } from "~/lib/pocketbase";
 import { EntryInfoForm, handleInfoUpdate } from "~/components/EntryInfoForm";
@@ -131,6 +131,7 @@ const Post = () => {
 
         onSave(value);
 
+        setIsEditing(false);
         toast.success("Content saved", {
           description: "Content has been saved successfully.",
         });
@@ -155,13 +156,11 @@ const Post = () => {
     hljs.highlightAll();
   }, [isEditing]);
 
-  useFetcher();
-
   return (
-    <div className="grid gap-4 relative">
+    <div className="grid gap-8 relative">
       <div className="flex justify-between items-center">
-        <H2>{entry.title}</H2>
-        {!isEditing && <EntryInfoForm entry={entry} />}
+        <H1>{entry.title}</H1>
+        {isEditing && <EntryInfoForm entry={entry} />}
       </div>
 
       {isEditing ? (
@@ -176,7 +175,7 @@ const Post = () => {
         </Suspense>
       ) : (
         <article
-          className="prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full"
+          className="prose dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full"
           dangerouslySetInnerHTML={{ __html: entry.content }}
         />
       )}
