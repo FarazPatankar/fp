@@ -56,10 +56,14 @@ const Tiptap = ({ onSave, ...args }: TiptapProps) => {
   };
 
   return (
-    <>
+    /**
+     * This is intentionally not using a fragment
+     * https://github.com/remix-run/react-router/issues/8834#issuecomment-1118083034
+     */
+    <div>
       <EditorContent editor={editor} ref={editorRef} />
       <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
-    </>
+    </div>
   );
 };
 
