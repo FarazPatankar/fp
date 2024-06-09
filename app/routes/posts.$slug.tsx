@@ -1,7 +1,14 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+
+import hljs from "highlight.js";
+import typescript from "highlight.js/lib/languages/typescript";
+
+hljs.registerLanguage("typescript", typescript);
+
+// import Editor from "~/components/editor/advanced-editor";
 
 import { Button } from "~/components/ui/button";
 import { H2 } from "~/components/ui/typography";
@@ -9,6 +16,7 @@ import { authenticator } from "~/lib/auth/auth.server";
 import { getEntry, updateEntry } from "~/lib/pocketbase";
 
 const Tiptap = lazy(() => import("~/components/TipTap"));
+const Editor = lazy(() => import("~/components/editor/advanced-editor"));
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();
@@ -34,6 +42,7 @@ const Post = () => {
   const { entry, isAuthenticated } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
 
+  const [value, setValue] = useState(entry.content);
   const [isEditing, setIsEditing] = useState(false);
 
   const submit = useSubmit();
@@ -73,6 +82,16 @@ const Post = () => {
         });
       }
 
+      if (e.key === "s" && (e.metaKey || e.ctrlKey) && isEditing) {
+        e.preventDefault();
+
+        onSave(value);
+
+        toast.success("Content saved", {
+          description: "Content has been saved successfully.",
+        });
+      }
+
       if (e.key === "l" && (e.metaKey || e.ctrlKey) && e.shiftKey) {
         e.preventDefault();
         navigate(`/login?redirect=/posts/${entry.slug}`);
@@ -82,6 +101,14 @@ const Post = () => {
     document.addEventListener("keydown", down);
 
     return () => document.removeEventListener("keydown", down);
+  }, [isEditing, value]);
+
+  useEffect(() => {
+    if (isEditing) {
+      return;
+    }
+
+    hljs.highlightAll();
   }, [isEditing]);
 
   return (
@@ -92,11 +119,12 @@ const Post = () => {
 
       {isEditing ? (
         <Suspense>
-          <Tiptap
-            content={entry.content}
-            onSave={onSave}
-            editable={isEditing}
-            setIsEditing={setIsEditing}
+          <Editor
+            initialValue={value}
+            onChange={val => {
+              console.log(val);
+              setValue(val);
+            }}
           />
         </Suspense>
       ) : (

@@ -9,18 +9,19 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 import { Toaster } from "sonner";
 
-import tailwindStylesHref from "./tailwind.css?url";
-import appStylesHref from "./styles.css?url";
 import { Nav } from "./components/Nav";
 
+import appStylesHref from "./globals.css?url";
+import proseMirrorStylesHref from "./prosemirror.css?url";
+
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: tailwindStylesHref },
   { rel: "stylesheet", href: appStylesHref },
+  { rel: "stylesheet", href: proseMirrorStylesHref },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
