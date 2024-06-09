@@ -10,6 +10,7 @@ import { Toaster } from "sonner";
 
 import tailwindStylesHref from "./tailwind.css?url";
 import appStylesHref from "./styles.css?url";
+import { Nav } from "./components/Nav";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindStylesHref },
@@ -26,7 +27,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div className="max-w-2xl mx-auto my-16">{children}</div>
+        <div className="max-w-2xl mx-auto my-6">
+          <Nav />
+          <section className="my-12">{children}</section>
+        </div>
         <Toaster />
 
         {/* Remix */}
