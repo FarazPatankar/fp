@@ -13,6 +13,7 @@ import {
 } from "@remix-run/react";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { toast } from "sonner";
+import invariant from "tiny-invariant";
 
 import hljs from "highlight.js";
 import typescript from "highlight.js/lib/languages/typescript";
@@ -26,27 +27,32 @@ import { EntryInfoForm } from "~/components/EntryInfoForm";
 
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
 
-export const action = async ({ request, params }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();
 
-  const intent = body.get("intent") as string;
+  const intent = body.get("intent");
+  invariant(intent, "No intent provided");
 
-  if (intent == null) {
-    return null;
-  }
+  // id is present in both intents
+  const id = body.get("id");
+  invariant(typeof id === "string", "No id provided");
 
   if (intent === "content") {
-    const id = body.get("id") as string;
-    const content = body.get("content") as string;
+    const content = body.get("content");
+    invariant(typeof content === "string", "No content provided");
 
     await updateEntry({ id, args: { content } });
     return json({ success: true });
   }
 
-  const id = body.get("id") as string;
-  const title = body.get("title") as string;
-  const description = body.get("description") as string;
-  const category = body.get("category") as string;
+  const title = body.get("title");
+  invariant(typeof title === "string", "No title provided");
+
+  const description = body.get("description");
+  invariant(typeof description === "string", "No description provided");
+
+  const category = body.get("category");
+  invariant(typeof category === "string", "No category provided");
 
   await updateEntry({
     id,
@@ -61,9 +67,10 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 };
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  if (params.slug === undefined) throw new Error("No slug provided");
+  const slug = params.slug;
+  invariant(slug, "No slug provided");
 
-  const entry = await getEntry(params.slug);
+  const entry = await getEntry(slug);
   const isAuthenticated = await authenticator.isAuthenticated(request);
 
   return json({ entry, isAuthenticated: isAuthenticated != null });
