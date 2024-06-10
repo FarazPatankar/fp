@@ -1,4 +1,6 @@
 import PocketBase from "pocketbase";
+import slugify from "@sindresorhus/slugify";
+
 import { envs } from "../env";
 import { Collections, EntriesRecord, EntriesResponse } from "./db-types";
 
@@ -51,6 +53,26 @@ export const updateEntry = async ({
   );
 
   const entry = await pb.collection(Collections.Entries).update(id, args);
+
+  return entry;
+};
+
+export const createEntry = async (
+  args: Pick<EntriesRecord, "title" | "category" | "meta">,
+) => {
+  const pb = getPocketBaseClient();
+  await pb.admins.authWithPassword(
+    envs.PB_TYPEGEN_EMAIL,
+    envs.PB_TYPEGEN_PASSWORD,
+  );
+
+  const slug = slugify(args.title);
+
+  const entry = await pb.collection(Collections.Entries).create({
+    ...args,
+    slug,
+    content: "<p>Edit to start writing</p>",
+  });
 
   return entry;
 };

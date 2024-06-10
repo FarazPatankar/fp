@@ -3,6 +3,7 @@ import {
   LoaderFunctionArgs,
   MetaFunction,
   json,
+  redirect,
 } from "@remix-run/node";
 import {
   useActionData,
@@ -24,7 +25,12 @@ hljs.registerLanguage("typescript", typescript);
 
 import { H1 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
-import { getEntries, getEntry, updateEntry } from "~/lib/pocketbase";
+import {
+  createEntry,
+  getEntries,
+  getEntry,
+  updateEntry,
+} from "~/lib/pocketbase";
 import { EntryInfoForm } from "~/components/EntryInfoForm";
 
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
@@ -49,11 +55,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const intent = body.get("intent");
   invariant(intent, "No intent provided");
 
-  // id is present in both intents
-  const id = body.get("id");
-  invariant(typeof id === "string", "No id provided");
-
   if (intent === "content") {
+    const id = body.get("id");
+    invariant(typeof id === "string", "No id provided");
+
     const content = body.get("content");
     invariant(typeof content === "string", "No content provided");
 
@@ -69,6 +74,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const category = body.get("category");
   invariant(typeof category === "string", "No category provided");
+
+  if (intent === "new") {
+    const entry = await createEntry({
+      title,
+      category,
+      meta: { description },
+    });
+
+    return redirect(`/p/${entry.slug}`);
+  }
+
+  const id = body.get("id");
+  invariant(typeof id === "string", "No id provided");
 
   await updateEntry({
     id,
