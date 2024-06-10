@@ -14,6 +14,7 @@ import {
 import { Suspense, lazy, useEffect, useState } from "react";
 import { toast } from "sonner";
 import invariant from "tiny-invariant";
+import { SEOHandle } from "@nasa-gcn/remix-seo";
 
 import hljs from "highlight.js";
 import typescript from "highlight.js/lib/languages/typescript";
@@ -22,10 +23,24 @@ hljs.registerLanguage("typescript", typescript);
 
 import { H1 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
-import { getEntry, updateEntry } from "~/lib/pocketbase";
+import { getEntries, getEntry, updateEntry } from "~/lib/pocketbase";
 import { EntryInfoForm } from "~/components/EntryInfoForm";
 
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
+
+export const handle: SEOHandle = {
+  getSitemapEntries: async () => {
+    const entries = await getEntries(null);
+
+    return entries.map(entry => {
+      return {
+        route: `/p/${entry.slug}`,
+        lastmod: entry.updated,
+        priority: 0.8,
+      };
+    });
+  },
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();

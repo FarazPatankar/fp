@@ -1,12 +1,19 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, json, useLoaderData } from "@remix-run/react";
+import { SEOHandle } from "@nasa-gcn/remix-seo";
+
+import { authenticator } from "~/lib/auth/auth.server";
+import { commitSession, getSession } from "~/lib/auth/session.server";
+
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Small } from "~/components/ui/typography";
 
-import { authenticator } from "~/lib/auth/auth.server";
-import { commitSession, getSession } from "~/lib/auth/session.server";
+// Do not generate sitemap entries for this route
+export const handle: SEOHandle = {
+  getSitemapEntries: () => null,
+};
 
 // Second, we need to export an action function, here we will use the
 // `authenticator.authenticate method`

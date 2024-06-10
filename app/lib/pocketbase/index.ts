@@ -12,13 +12,18 @@ export const getPocketBaseClient = () => {
   return pb;
 };
 
-export const getEntries = async (category: string) => {
+export const getEntries = async (category: string | null) => {
   const pb = getPocketBaseClient();
   const entries = await pb
     .collection(Collections.Entries)
-    .getFullList<EntriesResponse>(undefined, {
-      filter: `category="${category}"`,
-    });
+    .getFullList<EntriesResponse>(
+      undefined,
+      category == null
+        ? {}
+        : {
+            filter: `category="${category}"`,
+          },
+    );
 
   return entries;
 };
