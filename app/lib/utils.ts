@@ -18,3 +18,14 @@ export const getDomainUrl = (request: Request) => {
   const protocol = request.headers.get("X-Forwarded-Proto") ?? "http";
   return `${protocol}://${host}`;
 };
+
+export const dateStringToDate = (dateString: string) => {
+  const date = new Date(dateString);
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    month: "short",
+  }).format(date);
+
+  return formattedDate;
+};

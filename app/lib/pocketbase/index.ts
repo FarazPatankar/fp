@@ -1,4 +1,4 @@
-import PocketBase from "pocketbase";
+import PocketBase, { RecordListOptions } from "pocketbase";
 import slugify from "@sindresorhus/slugify";
 
 import { envs } from "../env";
@@ -16,16 +16,18 @@ export const getPocketBaseClient = () => {
 
 export const getEntries = async (category: string | null) => {
   const pb = getPocketBaseClient();
+
+  const options: RecordListOptions = {
+    sort: "-created",
+  };
+
+  if (category != null) {
+    options.filter = `category="${category}"`;
+  }
+
   const entries = await pb
     .collection(Collections.Entries)
-    .getFullList<EntriesResponse>(
-      undefined,
-      category == null
-        ? {}
-        : {
-            filter: `category="${category}"`,
-          },
-    );
+    .getFullList<EntriesResponse>(undefined, options);
 
   return entries;
 };
