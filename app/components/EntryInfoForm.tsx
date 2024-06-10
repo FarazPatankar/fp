@@ -1,3 +1,4 @@
+import { SerializeFrom } from "@remix-run/node";
 import { Form, useNavigation } from "@remix-run/react";
 import { useMemo } from "react";
 import { LoaderCircle } from "lucide-react";
@@ -16,7 +17,11 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 
-export const EntryInfoForm = ({ entry }: { entry: EntriesResponse }) => {
+export const EntryInfoForm = ({
+  entry,
+}: {
+  entry: SerializeFrom<EntriesResponse>;
+}) => {
   const { state } = useNavigation();
 
   const isLoading = useMemo(

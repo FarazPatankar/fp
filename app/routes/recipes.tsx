@@ -1,10 +1,11 @@
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
 import { getEntries } from "~/lib/pocketbase";
-import { Link, useLoaderData } from "@remix-run/react";
+
 import { H1 } from "~/components/ui/typography";
-import { Button } from "~/components/ui/button";
+import { EntryList } from "~/components/EntryList";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Recipes" }];
@@ -22,13 +23,7 @@ const Posts = () => {
   return (
     <div className="flex flex-col gap-4">
       <H1>Recipes</H1>
-      <div className="flex flex-col items-start">
-        {entries.map(entry => (
-          <Button key={entry.id} variant="link" className="p-0" asChild>
-            <Link to={`/p/${entry.slug}`}>{entry.title}</Link>
-          </Button>
-        ))}
-      </div>
+      <EntryList entries={entries} />
     </div>
   );
 };
