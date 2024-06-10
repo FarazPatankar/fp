@@ -15,6 +15,7 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { toast } from "sonner";
 import invariant from "tiny-invariant";
 import { SEOHandle } from "@nasa-gcn/remix-seo";
+import { serverOnly$ } from "vite-env-only/macros";
 
 import hljs from "highlight.js";
 import typescript from "highlight.js/lib/languages/typescript";
@@ -29,7 +30,7 @@ import { EntryInfoForm } from "~/components/EntryInfoForm";
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
 
 export const handle: SEOHandle = {
-  getSitemapEntries: async () => {
+  getSitemapEntries: serverOnly$(async () => {
     const entries = await getEntries(null);
 
     return entries.map(entry => {
@@ -39,7 +40,7 @@ export const handle: SEOHandle = {
         priority: 0.8,
       };
     });
-  },
+  }),
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
