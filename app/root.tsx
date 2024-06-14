@@ -5,7 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
+  useRouteLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { Toaster } from "sonner";
@@ -28,7 +28,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useLoaderData<typeof loader>();
+  const data = useRouteLoaderData<typeof loader>("root");
 
   return (
     <html lang="en" className="dark">
@@ -40,7 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="max-w-2xl mx-auto my-6">
-          <Nav isAuthenticated={isAuthenticated} />
+          <Nav isAuthenticated={data?.isAuthenticated ?? false} />
           <section className="my-12">{children}</section>
         </div>
         <Toaster />
