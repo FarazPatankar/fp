@@ -39,7 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <div className="max-w-2xl mx-auto my-6">
+        <div className="max-w-2xl mx-auto my-6 px-6 lg:px-0">
           <Nav isAuthenticated={data?.isAuthenticated ?? false} />
           <section className="my-12">{children}</section>
         </div>
