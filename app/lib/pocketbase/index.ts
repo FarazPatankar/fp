@@ -78,3 +78,37 @@ export const createEntry = async (
 
   return entry;
 };
+
+export const addMediaToEntry = async ({
+  entrySlug,
+  media,
+}: {
+  entrySlug: string;
+  media: File;
+}) => {
+  const entry = await getEntry(entrySlug);
+
+  const pb = getPocketBaseClient();
+  await pb.admins.authWithPassword(
+    envs.PB_TYPEGEN_EMAIL,
+    envs.PB_TYPEGEN_PASSWORD,
+  );
+
+  return await pb
+    .collection(Collections.Entries)
+    .update<EntriesRecord>(entry.id, {
+      media,
+    });
+};
+
+export const getEntryMediaUrl = ({
+  entry,
+  fileName,
+}: {
+  entry: EntriesRecord;
+  fileName: string;
+}) => {
+  const pb = getPocketBaseClient();
+
+  return pb.files.getUrl(entry, fileName);
+};

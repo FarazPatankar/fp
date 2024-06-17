@@ -37,6 +37,7 @@ export type AuthSystemFields<T = never> = {
 export type EntriesRecord<Tmeta = unknown> = {
 	category: string
 	content: HTMLString
+	media?: string[]
 	meta?: null | Tmeta
 	slug: string
 	title: string

@@ -1,19 +1,23 @@
+import slugify from "@sindresorhus/slugify";
 import { createImageUpload } from "novel/plugins";
 import { toast } from "sonner";
 
-const onUpload = (file: File) => {
-  const promise = fetch("/api/upload", {
+const onUpload = async (file: File) => {
+  const pathname = window.location.pathname;
+  const slug = pathname.split("/").pop();
+
+  const promise = fetch(`/p/${slug}/upload`, {
     method: "POST",
     headers: {
-      "content-type": file?.type || "application/octet-stream",
-      "x-vercel-filename": file?.name || "image.png",
+      "content-type": file.type,
+      "x-file-name": slugify(file.name),
     },
     body: file,
   });
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     toast.promise(
-      promise.then(async (res) => {
+      promise.then(async res => {
         // Successfully uploaded image
         if (res.status === 200) {
           const { url } = (await res.json()) as any;
@@ -23,13 +27,6 @@ const onUpload = (file: File) => {
           image.onload = () => {
             resolve(url);
           };
-          // No blob store configured
-        } else if (res.status === 401) {
-          resolve(file);
-          throw new Error(
-            "`BLOB_READ_WRITE_TOKEN` environment variable not found, reading image locally instead.",
-          );
-          // Unknown error
         } else {
           throw new Error(`Error uploading image. Please try again.`);
         }
@@ -37,7 +34,7 @@ const onUpload = (file: File) => {
       {
         loading: "Uploading image...",
         success: "Image uploaded successfully.",
-        error: (e) => e.message,
+        error: e => e.message,
       },
     );
   });
@@ -45,7 +42,7 @@ const onUpload = (file: File) => {
 
 export const uploadFn = createImageUpload({
   onUpload,
-  validateFn: (file) => {
+  validateFn: file => {
     if (!file.type.includes("image/")) {
       toast.error("File type not supported.");
       return false;
