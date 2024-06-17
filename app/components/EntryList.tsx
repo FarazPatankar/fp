@@ -13,16 +13,20 @@ export const EntryList = ({
   entries: SerializeFrom<EntriesResponse>[];
 }) => {
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-start space-y-2">
       {entries.map(entry => (
         <div
           key={entry.id}
-          className="w-full flex items-center justify-between"
+          className="w-full flex items-center justify-between space-x-2"
         >
-          <Button variant="link" className="p-0 text-base" asChild>
+          <Button
+            variant="link"
+            className="p-0 h-auto text-base whitespace-normal break-words"
+            asChild
+          >
             <Link to={`/p/${entry.slug}`}>{entry.title}</Link>
           </Button>
-          <Muted>{dateStringToDate(entry.created)}</Muted>
+          <Muted className="shrink-0">{dateStringToDate(entry.created)}</Muted>
         </div>
       ))}
     </div>
