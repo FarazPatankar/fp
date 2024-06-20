@@ -21,7 +21,7 @@ const Posts = () => {
   const { entries } = useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8">
       <H1>Posts</H1>
       <EntryList entries={entries} />
     </div>
