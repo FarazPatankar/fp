@@ -6,6 +6,7 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	Categories = "categories",
 	Entries = "entries",
 	Users = "users",
 }
@@ -34,8 +35,13 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
+export type CategoriesRecord = {
+	slug: string
+	title: string
+}
+
 export type EntriesRecord<Tmeta = unknown> = {
-	category: string
+	category: RecordIdString
 	content: HTMLString
 	media?: string[]
 	meta?: null | Tmeta
@@ -49,17 +55,20 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type CategoriesResponse<Texpand = unknown> = Required<CategoriesRecord> & BaseSystemFields<Texpand>
 export type EntriesResponse<Tmeta = unknown, Texpand = unknown> = Required<EntriesRecord<Tmeta>> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	categories: CategoriesRecord
 	entries: EntriesRecord
 	users: UsersRecord
 }
 
 export type CollectionResponses = {
+	categories: CategoriesResponse
 	entries: EntriesResponse
 	users: UsersResponse
 }
@@ -68,6 +77,7 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'categories'): RecordService<CategoriesResponse>
 	collection(idOrName: 'entries'): RecordService<EntriesResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }

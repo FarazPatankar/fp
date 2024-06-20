@@ -1,5 +1,7 @@
 import { Link, useLocation } from "@remix-run/react";
 
+import { CategoriesResponse } from "~/lib/pocketbase/db-types";
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -8,7 +10,11 @@ import {
 } from "~/components/ui/navigation-menu";
 import { NewEntryForm } from "~/components/NewEntryForm";
 
-export const Nav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+interface Props {
+  isAuthenticated: boolean;
+  categories: CategoriesResponse[];
+}
+export const Nav = ({ isAuthenticated, categories }: Props) => {
   const { pathname } = useLocation();
 
   return (
@@ -20,16 +26,16 @@ export const Nav = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
               <Link to="/">Home</Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink active={pathname.includes("/posts")} asChild>
-              <Link to="/posts">Posts</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink active={pathname.includes("/recipes")} asChild>
-              <Link to="/recipes">Recipes</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          {categories.map(category => (
+            <NavigationMenuItem key={category.id}>
+              <NavigationMenuLink
+                active={pathname.includes(category.slug)}
+                asChild
+              >
+                <Link to={category.slug}>{category.title}</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ))}
         </NavigationMenuList>
 
         {isAuthenticated && <NewEntryForm />}

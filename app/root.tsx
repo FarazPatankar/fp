@@ -15,6 +15,7 @@ import { Nav } from "./components/Nav";
 import appStylesHref from "./globals.css?url";
 import proseMirrorStylesHref from "./prosemirror.css?url";
 import { authenticator } from "./lib/auth/auth.server";
+import { getCategories } from "./lib/pocketbase/categories";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: appStylesHref },
@@ -24,7 +25,9 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const isAuthenticated = await authenticator.isAuthenticated(request);
 
-  return { isAuthenticated: isAuthenticated != null };
+  const categories = await getCategories();
+
+  return { isAuthenticated: isAuthenticated != null, categories };
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -45,7 +48,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <div className="max-w-2xl mx-auto my-6 px-6 lg:px-0">
-          <Nav isAuthenticated={data?.isAuthenticated ?? false} />
+          <Nav
+            isAuthenticated={data?.isAuthenticated ?? false}
+            categories={data?.categories ?? []}
+          />
           <section className="my-12">{children}</section>
         </div>
         <Toaster />
