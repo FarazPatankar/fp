@@ -1,4 +1,6 @@
-import { Form } from "@remix-run/react";
+import { Form, useRouteLoaderData } from "@remix-run/react";
+
+import { loader } from "~/root";
 
 import {
   Sheet,
@@ -11,8 +13,16 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
+import { SelectValue } from "@radix-ui/react-select";
 
 export const NewEntryForm = () => {
+  const data = useRouteLoaderData<typeof loader>("root");
+
+  if (data == null) {
+    return null;
+  }
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -42,7 +52,16 @@ export const NewEntryForm = () => {
           </div>
           <div className="grid gap-1.5">
             <Label htmlFor="category">Category</Label>
-            <Input id="category" name="category" required />
+            <Select name="category" required>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                {data.categories.map(category => (
+                  <SelectItem value={category.id}>{category.title}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <Button type="submit" className="max-w-max" name="intent" value="new">
