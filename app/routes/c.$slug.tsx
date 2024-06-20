@@ -13,7 +13,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(slug, "No slug provided");
 
   const category = await getCategoryBySlug(slug);
-  const entries = await getEntries(slug);
+  const entries = await getEntries(category.id);
 
   return json({ category, entries });
 };
