@@ -32,7 +32,7 @@ export const Nav = ({ isAuthenticated, categories }: Props) => {
                 active={pathname.includes(category.slug)}
                 asChild
               >
-                <Link to={category.slug}>{category.title}</Link>
+                <Link to={"/c/" + category.slug}>{category.title}</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           ))}

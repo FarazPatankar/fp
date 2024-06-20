@@ -10,3 +10,12 @@ export const getCategories = async () => {
 
   return categories;
 };
+
+export const getCategoryBySlug = async (slug: string) => {
+  const pb = getPocketBaseClient();
+  const category = await pb
+    .collection(Collections.Categories)
+    .getFirstListItem<CategoriesResponse>(`slug="${slug}"`);
+
+  return category;
+};
