@@ -60,8 +60,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     >
       <div tw="flex flex-col h-[480px]">
         <span tw="text-8xl">{emoji}</span>
-        <span tw="mt-16 font-bold text-4xl text-gray-900">{title}</span>
-        <span tw="mt-4 text-xl max-w-lg text-gray-900 opacity-75">
+        <span tw="mt-16 font-bold text-4xl text-gray-900 max-w-lg">
+          {title}
+        </span>
+        <span tw="mt-4 text-xl max-w-xl text-gray-900 opacity-75">
           {description}
         </span>
       </div>
