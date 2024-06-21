@@ -52,7 +52,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const jsx = (
     <div
-      tw="flex flex-col px-12 py-16 h-full w-full"
+      tw="flex flex-col px-20 pt-20 pb-6 h-full w-full"
       style={{
         backgroundImage: "linear-gradient(45deg, #ee9ca7 0%, #ffdde1 100%)",
         backgroundSize: "1200px 600px",
@@ -60,14 +60,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     >
       <div tw="flex flex-col h-[480px]">
         <span tw="text-8xl">{emoji}</span>
-        <span tw="mt-16 font-bold text-4xl text-gray-900 max-w-lg">
+        <span tw="mt-16 font-bold text-6xl text-gray-900 max-w-lg">
           {title}
         </span>
-        <span tw="mt-4 text-xl max-w-xl text-gray-900 opacity-75">
+        <span tw="mt-4 text-3xl max-w-xl text-gray-900 opacity-75">
           {description}
         </span>
       </div>
-      <div tw="flex text-xs uppercase text-white font-semibold">
+      <div tw="flex uppercase text-white font-semibold">
         <span>{category}</span>
         <span tw="mx-2 opacity-25">|</span>
         <span>farazpatankar.com</span>
