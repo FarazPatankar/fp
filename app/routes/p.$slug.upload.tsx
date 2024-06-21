@@ -1,6 +1,9 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { addMediaToEntry, getEntryMediaUrl } from "~/lib/pocketbase";
+import {
+  addMediaToEntry,
+  getEntryMediaUrl,
+} from "~/lib/pocketbase/.server/entries";
 
 export const action = async ({ request, params }: ActionFunctionArgs) => {
   const slug = params.slug;
