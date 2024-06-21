@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, json } from "@remix-run/node";
+import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
@@ -16,6 +16,14 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const entries = await getEntries(category.id);
 
   return json({ category, entries });
+};
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (data == null) {
+    return [];
+  }
+
+  return [{ title: data.category.title }];
 };
 
 const CategoryPage = () => {
