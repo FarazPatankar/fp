@@ -2,7 +2,7 @@ import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { getEntries } from "~/lib/pocketbase";
+import { getEntries } from "~/lib/pocketbase/entries";
 
 import { EntryList } from "~/components/EntryList";
 import { H1 } from "~/components/ui/typography";

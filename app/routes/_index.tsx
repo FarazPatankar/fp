@@ -1,9 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 
-import { getEntries } from "~/lib/pocketbase";
-import { Link, useLoaderData } from "@remix-run/react";
-import { H1, H2, P } from "~/components/ui/typography";
+import { Link } from "@remix-run/react";
+import { H1, P } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 
