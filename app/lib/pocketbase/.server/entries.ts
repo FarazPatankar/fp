@@ -1,9 +1,9 @@
 import { RecordListOptions } from "pocketbase";
 import slugify from "@sindresorhus/slugify";
 
-import { getPocketBaseClient } from ".";
-import { Collections, EntriesRecord, EntriesResponse } from "./db-types";
-import { envs } from "../env";
+import { getPocketBaseClient } from "..";
+import { Collections, EntriesRecord, EntriesResponse } from "../db-types";
+import { envs } from "../../env";
 
 export const getEntries = async (category: string | null) => {
   const pb = getPocketBaseClient();

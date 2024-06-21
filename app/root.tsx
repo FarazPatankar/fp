@@ -15,7 +15,7 @@ import { Nav } from "./components/Nav";
 import appStylesHref from "./globals.css?url";
 import proseMirrorStylesHref from "./prosemirror.css?url";
 import { authenticator } from "./lib/auth/auth.server";
-import { getCategories } from "./lib/pocketbase/categories";
+import { getCategories } from "./lib/pocketbase/.server/categories";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: appStylesHref },

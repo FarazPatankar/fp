@@ -1,5 +1,5 @@
-import { getPocketBaseClient } from ".";
-import { CategoriesResponse, Collections } from "./db-types";
+import { getPocketBaseClient } from "..";
+import { CategoriesResponse, Collections } from "../db-types";
 
 export const getCategories = async () => {
   const pb = getPocketBaseClient();

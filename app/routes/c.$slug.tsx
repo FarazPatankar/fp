@@ -2,11 +2,11 @@ import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { getEntries } from "~/lib/pocketbase/entries";
+import { getEntries } from "~/lib/pocketbase/.server/entries";
 
 import { EntryList } from "~/components/EntryList";
 import { H1 } from "~/components/ui/typography";
-import { getCategoryBySlug } from "~/lib/pocketbase/categories";
+import { getCategoryBySlug } from "~/lib/pocketbase/.server/categories";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const slug = params.slug;

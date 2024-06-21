@@ -31,7 +31,7 @@ import {
   getEntries,
   getEntry,
   updateEntry,
-} from "~/lib/pocketbase/entries";
+} from "~/lib/pocketbase/.server/entries";
 import { EntryInfoForm } from "~/components/EntryInfoForm";
 
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
