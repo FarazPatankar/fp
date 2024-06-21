@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import invariant from "tiny-invariant";
 import { SEOHandle } from "@nasa-gcn/remix-seo";
 import { serverOnly$ } from "vite-env-only/macros";
+import emojiRegex from "emoji-regex";
 
 import hljs from "highlight.js";
 import typescript from "highlight.js/lib/languages/typescript";
@@ -110,12 +111,47 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   return json({ entry, isAuthenticated: isAuthenticated != null });
 };
 
+const regex = emojiRegex();
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (data == null) {
     return [];
   }
 
-  return [{ title: data.entry.title }];
+  let description: string | undefined = undefined;
+  if (data.entry.meta != null) {
+    description = (data.entry.meta as any).description as string;
+  }
+
+  let emoji: string | undefined = undefined;
+  const matches = data.entry.title.match(regex);
+  if (matches != null) {
+    emoji = matches[0];
+  }
+
+  return [
+    {
+      title:
+        emoji == null ? data.entry.title : data.entry.title.replace(emoji, ""),
+    },
+    ...(description == null
+      ? []
+      : [
+          {
+            name: "description",
+            content: description,
+          },
+        ]),
+    ...(emoji == null
+      ? []
+      : [
+          {
+            tagName: "link",
+            rel: "icon",
+            href: `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`,
+          },
+        ]),
+  ];
 };
 
 const Post = () => {
