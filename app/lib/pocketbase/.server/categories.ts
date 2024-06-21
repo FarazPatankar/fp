@@ -19,3 +19,12 @@ export const getCategoryBySlug = async (slug: string) => {
 
   return category;
 };
+
+export const getCategoryById = async (id: string) => {
+  const pb = getPocketBaseClient();
+  const category = await pb
+    .collection(Collections.Categories)
+    .getOne<CategoriesResponse>(id);
+
+  return category;
+};

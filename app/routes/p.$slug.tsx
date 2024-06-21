@@ -129,19 +129,59 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     emoji = matches[0];
   }
 
-  return [
+  const title =
+    emoji == null ? data.entry.title : data.entry.title.replace(emoji, "");
+  const titleElements: ReturnType<MetaFunction> = [
     {
-      title:
-        emoji == null ? data.entry.title : data.entry.title.replace(emoji, ""),
+      title,
     },
-    ...(description == null
+    {
+      name: "twitter:title",
+      content: title,
+    },
+    {
+      property: "og:title",
+      content: title,
+    },
+  ];
+
+  const descriptionElements: ReturnType<MetaFunction> =
+    description == null
       ? []
       : [
           {
             name: "description",
             content: description,
           },
-        ]),
+          {
+            name: "twitter:description",
+            content: description,
+          },
+          {
+            property: "og:description",
+            content: description,
+          },
+        ];
+
+  const imageElements: ReturnType<MetaFunction> = [
+    {
+      name: "og:image",
+      content: `https://farazpatankar.com/p/${data.entry.slug}.png`,
+    },
+    {
+      property: "twitter:image",
+      content: `https://farazpatankar.com/p/${data.entry.slug}.png`,
+    },
+    {
+      name: "twitter:card",
+      content: "summary_large_image",
+    },
+  ];
+
+  return [
+    ...titleElements,
+    ...descriptionElements,
+    ...imageElements,
     ...(emoji == null
       ? []
       : [
