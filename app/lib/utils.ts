@@ -29,3 +29,9 @@ export const dateStringToDate = (dateString: string) => {
 
   return formattedDate;
 };
+
+export const dateStringToDateTime = (dateString: string) => {
+  const date = new Date(dateString);
+
+  return date.toISOString();
+};

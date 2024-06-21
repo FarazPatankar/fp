@@ -33,6 +33,7 @@ import {
   updateEntry,
 } from "~/lib/pocketbase/.server/entries";
 import { EntryInfoForm } from "~/components/EntryInfoForm";
+import { dateStringToDateTime } from "~/lib/utils";
 
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
 
@@ -43,7 +44,7 @@ export const handle: SEOHandle = {
     return entries.map(entry => {
       return {
         route: `/p/${entry.slug}`,
-        lastmod: entry.updated,
+        lastmod: dateStringToDateTime(entry.updated),
         priority: 0.8,
       };
     });
