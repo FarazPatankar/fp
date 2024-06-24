@@ -23,6 +23,41 @@ import hljs from "highlight.js";
 import typescript from "highlight.js/lib/languages/typescript";
 
 hljs.registerLanguage("typescript", typescript);
+hljs.addPlugin({
+  "after:highlightElement": ({ el, text }) => {
+    /**
+     * el is the <code> element that was highlighted
+     * el.parentElement is the <pre> element
+     */
+    const wrapper = el.parentElement;
+    if (wrapper == null) {
+      return;
+    }
+
+    wrapper.classList.add("relative");
+
+    const copyButton = document.createElement("button");
+    copyButton.classList.add(
+      "absolute",
+      "top-2",
+      "right-2",
+      "p-2",
+      "text-gray-500",
+      "hover:text-gray-700",
+    );
+    copyButton.innerHTML = `<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+
+    copyButton.onclick = () => {
+      navigator.clipboard.writeText(text);
+
+      toast.success("Copied to clipboard", {
+        description: "The code block content has been copied to the clipboard.",
+      });
+    };
+
+    wrapper.appendChild(copyButton);
+  },
+});
 
 import { H1 } from "~/components/ui/typography";
 import { authenticator } from "~/lib/auth/auth.server";
@@ -292,7 +327,7 @@ const Post = () => {
         </Suspense>
       ) : (
         <article
-          className="prose dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full"
+          className="prose dark:prose-invert prose-headings:font-title font-default focus:outline-none"
           dangerouslySetInnerHTML={{ __html: entry.content }}
         />
       )}
