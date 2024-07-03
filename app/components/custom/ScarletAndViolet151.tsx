@@ -1,6 +1,8 @@
 import TCGdex, { Set } from "@tcgdex/sdk";
 import { useEffect, useMemo, useState } from "react";
 import { generateJSON } from "@tiptap/html";
+import { Image } from "@unpic/react";
+
 import { extensions } from "../editor/advanced-editor";
 import { cn } from "~/lib/utils";
 
@@ -46,8 +48,6 @@ export const ScarletAndViolet151 = ({ content }: { content: string }) => {
     });
   }, [content]);
 
-  console.log(cards, list);
-
   return (
     <article className="flex flex-col space-y-10">
       <div className="flex flex-col">
@@ -74,7 +74,14 @@ export const ScarletAndViolet151 = ({ content }: { content: string }) => {
               list[idx].checked && "opacity-100",
             )}
           >
-            <img src={c.image + "/low.webp"} alt={c.name} />
+            <Image
+              src={c.image + "/low.webp"}
+              alt={c.name}
+              layout="constrained"
+              height={337}
+              width={245}
+            />
+
             {list[idx].checked && list[idx].total > 0 && (
               <div className="absolute bottom-0 right-0 mb-1 mr-1 bg-pink-400 rounded-full h-8 w-8 flex items-center justify-center">
                 <span className="font-medium text-sm">{list[idx].total}</span>
