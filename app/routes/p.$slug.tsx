@@ -69,6 +69,7 @@ import {
 } from "~/lib/pocketbase/.server/entries";
 import { EntryInfoForm } from "~/components/EntryInfoForm";
 import { dateStringToDateTime } from "~/lib/utils";
+import { ScarletAndViolet151 } from "~/components/custom/ScarletAndViolet151";
 
 const Editor = lazy(() => import("~/components/editor/advanced-editor"));
 
@@ -314,23 +315,29 @@ const Post = () => {
         <H1>{entry.title}</H1>
         {isEditing && <EntryInfoForm entry={entry} />}
       </div>
-
-      {isEditing ? (
-        <Suspense>
-          <Editor
-            initialValue={value}
-            onChange={val => {
-              console.log(val);
-              setValue(val);
-            }}
-          />
-        </Suspense>
-      ) : (
-        <article
-          className="prose dark:prose-invert prose-headings:font-title font-default focus:outline-none"
-          dangerouslySetInnerHTML={{ __html: entry.content }}
-        />
-      )}
+      <>
+        {isEditing ? (
+          <Suspense>
+            <Editor
+              initialValue={value}
+              onChange={val => {
+                setValue(val);
+              }}
+            />
+          </Suspense>
+        ) : (
+          <>
+            {entry.slug === "scarlet-and-violet-151" ? (
+              <ScarletAndViolet151 content={entry.content} />
+            ) : (
+              <article
+                className="prose dark:prose-invert prose-headings:font-title font-default focus:outline-none"
+                dangerouslySetInnerHTML={{ __html: entry.content }}
+              />
+            )}
+          </>
+        )}
+      </>
     </div>
   );
 };

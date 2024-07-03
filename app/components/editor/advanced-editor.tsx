@@ -24,7 +24,7 @@ import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { uploadFn } from "./image-upload";
 import { Separator } from "~/components/ui/separator";
 
-const extensions = [...defaultExtensions, slashCommand];
+export const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProp {
   initialValue?: string;
