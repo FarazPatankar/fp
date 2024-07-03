@@ -58,7 +58,9 @@ export const NewEntryForm = () => {
               </SelectTrigger>
               <SelectContent>
                 {data.categories.map(category => (
-                  <SelectItem value={category.id}>{category.title}</SelectItem>
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.title}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
