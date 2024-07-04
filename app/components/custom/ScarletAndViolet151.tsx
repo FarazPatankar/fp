@@ -8,6 +8,46 @@ import { cn } from "~/lib/utils";
 
 const tcgdex = new TCGdex("en");
 
+interface CardProps {
+  checked: boolean;
+  total: number;
+
+  name: string;
+  image?: string;
+}
+const Card = ({ checked, total, name, image }: CardProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div
+      className={cn(
+        "transition hover:scale-105",
+        "relative",
+        "opacity-40",
+        checked && "opacity-100",
+        "min-h-72",
+      )}
+    >
+      <Image
+        src={image + "/low.webp"}
+        alt={name}
+        layout="constrained"
+        height={337}
+        width={245}
+        onLoad={() => {
+          setIsLoaded(true);
+        }}
+      />
+
+      {isLoaded && checked && total > 0 && (
+        <div className="absolute bottom-0 right-0 mb-1 mr-1 bg-pink-400 rounded-full h-8 w-8 flex items-center justify-center">
+          <span className="font-medium text-sm">{total}</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const ScarletAndViolet151 = ({ content }: { content: string }) => {
   const [cards, setCards] = useState<Set["cards"]>([]);
 
@@ -66,28 +106,13 @@ export const ScarletAndViolet151 = ({ content }: { content: string }) => {
       </div>
       <div className="grid gap-x-6 gap-y-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-auto">
         {cards.map((c, idx) => (
-          <div
-            className={cn(
-              "transition hover:scale-105",
-              "relative",
-              "opacity-40",
-              list[idx].checked && "opacity-100",
-            )}
-          >
-            <Image
-              src={c.image + "/low.webp"}
-              alt={c.name}
-              layout="constrained"
-              height={337}
-              width={245}
-            />
-
-            {list[idx].checked && list[idx].total > 0 && (
-              <div className="absolute bottom-0 right-0 mb-1 mr-1 bg-pink-400 rounded-full h-8 w-8 flex items-center justify-center">
-                <span className="font-medium text-sm">{list[idx].total}</span>
-              </div>
-            )}
-          </div>
+          <Card
+            key={c.id}
+            checked={list[idx].checked}
+            total={list[idx].total}
+            name={c.name}
+            image={c.image}
+          />
         ))}
       </div>
     </article>
