@@ -36,6 +36,11 @@ export const Nav = ({ isAuthenticated, categories }: Props) => {
               </NavigationMenuLink>
             </NavigationMenuItem>
           ))}
+          <NavigationMenuItem>
+            <NavigationMenuLink active={pathname === "/now"} asChild>
+              <Link to="/now">Now</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
         </NavigationMenuList>
 
         {isAuthenticated && <NewEntryForm />}

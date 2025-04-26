@@ -9,6 +9,9 @@ const envSchema = z.object({
   // Auth
   SESSION_SECRET: z.string(),
   ADMIN_PASSWORD: z.string(),
+
+  // OURA
+  OURA_PAT: z.string(),
 });
 
 const env = envSchema.safeParse(process.env);
