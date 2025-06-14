@@ -1,6 +1,8 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import satori, { SatoriOptions } from "satori";
 import { Resvg } from "@resvg/resvg-js";
+import tinycolor from "tinycolor2";
+
 import { getIconCode, loadEmoji } from "~/lib/twemoji";
 
 declare module "react" {
@@ -20,7 +22,6 @@ async function getFont(
     )}&text=${encodeURIComponent(text)}`,
     {
       headers: {
-        // Make sure it returns TTF.
         "User-Agent":
           "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1",
       },
@@ -42,57 +43,141 @@ async function getFont(
   ) as Promise<SatoriOptions["fonts"]>;
 }
 
+const GRID_ROWS = 5;
+const GRID_COLS = 5;
+const FALLBACK_COLOR = "#ee9ca7";
+
+// Extract primary fill color from Twemoji SVG
+function extractFriendlyColorFromSvg(svg: string): string | null {
+  const matches = svg.match(/fill="(#[0-9a-fA-F]{3,6})"/g);
+  if (!matches) return null;
+
+  const colorCounts: Record<string, number> = {};
+  for (const match of matches) {
+    const color = match.replace(/fill="|"/g, "");
+    colorCounts[color] = (colorCounts[color] || 0) + 1;
+  }
+
+  const sorted = Object.entries(colorCounts)
+    .map(([hex, count]) => ({
+      hex,
+      count,
+      color: tinycolor(hex),
+    }))
+    .filter(c => c.color.isValid())
+    .filter(c => {
+      const { l, s } = c.color.toHsl();
+      return l > 0.4 && s > 0.4; // brighter & more saturated
+    })
+    .sort((a, b) => b.count - a.count);
+
+  return sorted.length > 0 ? sorted[0].hex : Object.keys(colorCounts)[0];
+}
+
+function generateEmojiGrid(rows: number, cols: number) {
+  return Array.from({ length: rows * cols }).map((_, i) => {
+    const row = Math.floor(i / cols);
+    const col = i % cols;
+    const cellWidth = 100 / cols;
+    const cellHeight = 100 / rows;
+    const jitter = (range: number) => (Math.random() - 0.5) * range;
+    return {
+      top: `${row * cellHeight + jitter(cellHeight * 0.6)}%`,
+      left: `${col * cellWidth + jitter(cellWidth * 0.6)}%`,
+      rotate: Math.random() * 360,
+    };
+  });
+}
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
 
-  const emoji = url.searchParams.get("emoji");
+  const emoji = url.searchParams.get("emoji") ?? "✨";
   const title = url.searchParams.get("title");
   const description = url.searchParams.get("description");
   const category = url.searchParams.get("category");
 
+  const emojiSvg = await loadEmoji("twemoji", getIconCode(emoji));
+
+  const backgroundColor = tinycolor(
+    extractFriendlyColorFromSvg(emojiSvg) ?? FALLBACK_COLOR,
+  )
+    .lighten(15)
+    .toHexString();
+  const textColor = tinycolor
+    .mostReadable(backgroundColor, ["#fff", "#000"], {
+      level: "AA",
+      size: "large",
+    })
+    .toHexString();
+
+  const outlines = generateEmojiGrid(GRID_ROWS, GRID_COLS);
+
   const jsx = (
     <div
-      tw="flex flex-col px-20 pt-20 pb-6 h-full w-full"
+      tw="flex flex-col px-20 pt-20 pb-6 h-full w-full relative"
       style={{
-        backgroundImage: "linear-gradient(45deg, #ee9ca7 0%, #ffdde1 100%)",
-        backgroundSize: "1200px 600px",
+        backgroundColor,
       }}
     >
-      <div tw="flex flex-col h-[480px]">
-        <span tw="text-8xl">{emoji}</span>
-        <span tw="mt-16 font-bold text-6xl text-gray-900 max-w-lg">
-          {title}
-        </span>
-        <span tw="mt-4 text-3xl max-w-xl text-gray-900 opacity-75">
-          {description}
-        </span>
+      <div tw="flex absolute inset-0 z-0 overflow-hidden">
+        {outlines.map((o, i) => (
+          <span
+            key={i}
+            tw="absolute text-5xl"
+            style={{
+              top: o.top,
+              left: o.left,
+              transform: `rotate(${o.rotate}deg)`,
+              opacity: 0.15,
+              filter: "grayscale(0.85)",
+            }}
+          >
+            {emoji}
+          </span>
+        ))}
       </div>
-      <div tw="flex uppercase text-white font-semibold">
+      <div tw="flex flex-1 flex-row h-[480px] items-center justify-center">
+        <span tw="text-[240px] leading-none">{emoji}</span>
+        <div tw="flex flex-col ml-8">
+          <span tw="font-bold text-6xl max-w-lg" style={{ color: textColor }}>
+            {title}
+          </span>
+          <span
+            tw="mt-4 text-2xl max-w-xl opacity-75"
+            style={{ color: textColor }}
+          >
+            {description}
+          </span>
+        </div>
+      </div>
+      <div
+        tw="flex uppercase font-medium mt-auto mx-auto"
+        style={{ color: tinycolor(textColor).setAlpha(0.6).toRgbString() }}
+      >
         <span>{category}</span>
         <span tw="mx-2 opacity-25">|</span>
         <span>farazpatankar.com</span>
       </div>
     </div>
   );
-  // From satori docs example
+
   const svg = await satori(jsx, {
     width: 1200,
     height: 600,
     fonts: await getFont("Inter"),
     loadAdditionalAsset: async (code: string, segment: string) => {
       if (code === "emoji") {
-        return `data:image/svg+xml;base64,${btoa(
-          await loadEmoji("twemoji", getIconCode(segment)),
-        )}`;
+        return `data:image/svg+xml;base64,${btoa(emojiSvg)}`;
       }
-
-      // if segment is normal text
       return code;
     },
   });
+
   const resvg = new Resvg(svg);
   const pngData = resvg.render();
   const data = pngData.asPng();
+
   return new Response(data, {
     headers: {
       "Content-Type": "image/png",
