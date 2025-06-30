@@ -1,5 +1,5 @@
 import slugify from "@sindresorhus/slugify";
-import { createImageUpload } from "novel/plugins";
+import { createImageUpload } from "novel";
 import { toast } from "sonner";
 
 const onUpload = async (file: File) => {

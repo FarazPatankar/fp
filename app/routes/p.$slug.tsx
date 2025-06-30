@@ -70,7 +70,7 @@ import { EntryInfoForm } from "~/components/EntryInfoForm";
 import { dateStringToDateTime } from "~/lib/utils";
 import { ScarletAndViolet151 } from "~/components/custom/ScarletAndViolet151";
 
-const Editor = lazy(() => import("~/components/editor/advanced-editor"));
+const Editor = lazy(() => import("~/components/editor/advanced-editor.client"));
 
 export const handle: SEOHandle = {
   getSitemapEntries: serverOnly$(async () => {
