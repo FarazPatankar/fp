@@ -9,8 +9,11 @@ import {
   type JSONContent,
   EditorCommandList,
   EditorBubble,
+  ImageResizer,
+  handleCommandNavigation,
+  handleImageDrop,
+  handleImagePaste,
 } from "novel";
-import { ImageResizer, handleCommandNavigation } from "novel/extensions";
 import { generateJSON } from "@tiptap/html";
 
 import { defaultExtensions } from "./extensions";
@@ -20,7 +23,6 @@ import { ColorSelector } from "./selectors/color-selector";
 
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
-import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { uploadFn } from "./image-upload";
 import { Separator } from "~/components/ui/separator";
 

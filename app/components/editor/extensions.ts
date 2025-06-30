@@ -12,8 +12,8 @@ import {
   TiptapLink,
   UpdatedImage,
   Youtube,
-} from "novel/extensions";
-import { UploadImagesPlugin } from "novel/plugins";
+  UploadImagesPlugin,
+} from "novel";
 
 import { cx } from "class-variance-authority";
 import { common, createLowlight } from "lowlight";
