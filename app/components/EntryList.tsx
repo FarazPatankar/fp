@@ -1,5 +1,5 @@
-import { SerializeFrom } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { SerializeFrom } from "react-router";
+import { Link } from "react-router";
 
 import { EntriesResponse } from "~/lib/pocketbase/db-types";
 

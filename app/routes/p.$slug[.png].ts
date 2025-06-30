@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs } from "react-router";
 import emojiRegex from "emoji-regex";
 import invariant from "tiny-invariant";
 import { getCategoryById } from "~/lib/pocketbase/.server/categories";

@@ -1,5 +1,5 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { Form, json, useLoaderData } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { Form, json, useLoaderData } from "react-router";
 import { SEOHandle } from "@nasa-gcn/remix-seo";
 
 import { authenticator } from "~/lib/auth/auth.server";

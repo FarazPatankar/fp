@@ -1,13 +1,6 @@
 import "@fontsource-variable/inter/wght.css";
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useRouteLoaderData,
-} from "@remix-run/react";
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useRouteLoaderData } from "react-router";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 import { Toaster } from "sonner";
 
 import { Nav } from "./components/Nav";

@@ -1,5 +1,5 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json } from "react-router";
+import { useLoaderData } from "react-router";
 import { z } from "zod";
 import { H3, P, Small } from "~/components/ui/typography";
 

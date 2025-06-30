@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, MetaFunction, json } from "react-router";
+import { useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
 
 import { getEntries } from "~/lib/pocketbase/.server/entries";
