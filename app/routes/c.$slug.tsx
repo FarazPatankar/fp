@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
 
 import { getEntries } from "~/lib/pocketbase/.server/entries";
@@ -15,7 +15,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const category = await getCategoryBySlug(slug);
   const entries = await getEntries(category.id);
 
-  return json({ category, entries });
+  return { category, entries };
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

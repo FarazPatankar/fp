@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs } from "react-router";
 import invariant from "tiny-invariant";
 import {
   addMediaToEntry,
@@ -25,5 +25,5 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   const latestFileName = files[files.length - 1];
   const fileUrl = getEntryMediaUrl({ entry, fileName: latestFileName });
 
-  return json({ url: fileUrl });
+  return { url: fileUrl };
 };

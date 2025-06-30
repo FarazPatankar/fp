@@ -1,5 +1,5 @@
-import { SerializeFrom } from "@remix-run/node";
-import { Form, useNavigation } from "@remix-run/react";
+import { SerializeFrom } from "react-router";
+import { Form, useNavigation } from "react-router";
 import { useMemo } from "react";
 import { LoaderCircle } from "lucide-react";
 

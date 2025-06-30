@@ -1,5 +1,5 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { Form, json, useLoaderData } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
+import { Form, useLoaderData } from "react-router";
 import { SEOHandle } from "@nasa-gcn/remix-seo";
 
 import { authenticator } from "~/lib/auth/auth.server";
@@ -49,14 +49,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     authenticator.sessionErrorKey,
   ) as LoaderData["error"];
 
-  return json<LoaderData>(
-    { error },
-    {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-      },
+  return {
+    error,
+    headers: {
+      "Set-Cookie": await commitSession(session),
     },
-  );
+  };
 }
 
 const Login = () => {

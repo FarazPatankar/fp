@@ -1,6 +1,6 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "react-router";
 
-import { Link } from "@remix-run/react";
+import { Link } from "react-router";
 import { H1, P } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";

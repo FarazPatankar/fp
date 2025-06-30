@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs } from "react-router";
 import satori, { SatoriOptions } from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import tinycolor from "tinycolor2";

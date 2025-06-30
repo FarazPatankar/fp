@@ -2,16 +2,15 @@ import {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-  json,
   redirect,
-} from "@remix-run/node";
+} from "react-router";
 import {
   useActionData,
   useLoaderData,
   useNavigate,
   useNavigation,
   useSubmit,
-} from "@remix-run/react";
+} from "react-router";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { toast } from "sonner";
 import invariant from "tiny-invariant";
@@ -101,7 +100,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     invariant(typeof content === "string", "No content provided");
 
     await updateEntry({ id, args: { content } });
-    return json({ success: true });
+    return { success: true };
   }
 
   const title = body.get("title");
@@ -135,7 +134,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   });
 
-  return json({ success: true });
+  return { success: true };
 };
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -145,7 +144,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const entry = await getEntry(slug);
   const isAuthenticated = await authenticator.isAuthenticated(request);
 
-  return json({ entry, isAuthenticated: isAuthenticated != null });
+  return { entry, isAuthenticated: isAuthenticated != null };
 };
 
 const regex = emojiRegex();
