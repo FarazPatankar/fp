@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { generateJSON } from "@tiptap/html";
 import { Image } from "@unpic/react";
 
-import { extensions } from "../editor/advanced-editor";
+import { extensions } from "../editor/advanced-editor.client";
 import { cn } from "~/lib/utils";
 
 const tcgdex = new TCGdex("en");
