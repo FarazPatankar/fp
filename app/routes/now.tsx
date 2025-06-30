@@ -1,4 +1,3 @@
-import { json } from "react-router";
 import { useLoaderData } from "react-router";
 import { z } from "zod";
 import { H3, P, Small } from "~/components/ui/typography";
@@ -31,25 +30,25 @@ export const loader = async () => {
 
     const lastSleep = parsedSleepResult.data.find(r => r.type === "long_sleep");
     if (lastSleep == null) {
-      return json({
+      return {
         status: "error",
         lastSleep: null,
         error: "No long sleep data found",
-      });
+      };
     }
 
-    return json({
+    return {
       status: "success",
       lastSleep,
-    });
+    };
   } catch (error) {
     console.error(error);
 
-    return json({
+    return {
       status: "error",
       lastSleep: null,
       error: error.message ?? "Unknown error",
-    });
+    };
   }
 };
 

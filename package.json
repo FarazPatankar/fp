@@ -23,6 +23,7 @@
     "@radix-ui/react-select": "^2.1.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@react-router/fs-routes": "^7.6.3",
     "@react-router/node": "^7.0.0",
     "@react-router/serve": "^7.0.0",
     "@resvg/resvg-js": "^2.6.2",

@@ -41,6 +41,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@18.2.20)(react@18.2.0)
+      '@react-router/fs-routes':
+        specifier: ^7.6.3
+        version: 7.6.3(@react-router/dev@7.6.3(@react-router/serve@7.6.3(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6))(@types/node@20.14.2)(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6)(vite@5.1.0(@types/node@20.14.2)))(typescript@5.1.6)
       '@react-router/node':
         specifier: ^7.0.0
         version: 7.6.3(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6)
@@ -1316,6 +1319,16 @@ packages:
     peerDependencies:
       express: ^4.17.1 || ^5
       react-router: 7.6.3
+      typescript: ^5.1.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@react-router/fs-routes@7.6.3':
+    resolution: {integrity: sha512-7w9Z2UyAMBsQqzKChIDHnJ0ehFObG6lhFqTP9/ssW2jAfhmzYZLBfjqOHloI+glzRzj/LpSRUZBlDWiNHlbcjQ==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      '@react-router/dev': ^7.6.3
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
@@ -5857,6 +5870,13 @@ snapshots:
       '@react-router/node': 7.6.3(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6)
       express: 4.21.2
       react-router: 7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+    optionalDependencies:
+      typescript: 5.1.6
+
+  '@react-router/fs-routes@7.6.3(@react-router/dev@7.6.3(@react-router/serve@7.6.3(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6))(@types/node@20.14.2)(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6)(vite@5.1.0(@types/node@20.14.2)))(typescript@5.1.6)':
+    dependencies:
+      '@react-router/dev': 7.6.3(@react-router/serve@7.6.3(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6))(@types/node@20.14.2)(react-router@7.6.3(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(typescript@5.1.6)(vite@5.1.0(@types/node@20.14.2))
+      minimatch: 9.0.4
     optionalDependencies:
       typescript: 5.1.6
 

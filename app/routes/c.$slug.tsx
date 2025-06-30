@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, MetaFunction, json } from "react-router";
+import { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData } from "react-router";
 import invariant from "tiny-invariant";
 
@@ -15,7 +15,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const category = await getCategoryBySlug(slug);
   const entries = await getEntries(category.id);
 
-  return json({ category, entries });
+  return { category, entries };
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
