@@ -165,12 +165,13 @@ pre {
 }
 
 /* Editor V2 styling */
+
+/*
 .tiptap {
   :first-child {
     margin-top: 0;
   }
 
-  /* List styles */
   ul,
   ol {
     padding: 0 1rem;
@@ -182,7 +183,6 @@ pre {
     }
   }
 
-  /* Heading styles */
   h1,
   h2,
   h3,
@@ -218,7 +218,6 @@ pre {
     font-size: 1rem;
   }
 
-  /* Code and preformatted text styles */
   code {
     background-color: hsl(var(--muted));
     border-radius: 0.4rem;
@@ -255,3 +254,4 @@ pre {
     margin: 2rem 0;
   }
 }
+*/

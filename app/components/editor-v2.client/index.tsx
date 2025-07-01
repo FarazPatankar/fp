@@ -12,6 +12,13 @@ export default () => {
     onUpdate: ({ editor }) => {
       console.log(editor.getHTML());
     },
+
+    editorProps: {
+      attributes: {
+        class:
+          "prose dark:prose-invert prose-headings:font-title font-default focus:outline-none",
+      },
+    },
   });
 
   return <EditorContent editor={editor} />;
