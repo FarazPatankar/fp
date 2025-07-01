@@ -29,7 +29,9 @@
     "@resvg/resvg-js": "^2.6.2",
     "@sindresorhus/slugify": "^2.2.1",
     "@tcgdex/sdk": "^2.5.1",
-    "@tiptap/html": "^2.4.0",
+    "@tiptap/html": "3.0.0-beta.18",
+    "@tiptap/react": "3.0.0-beta.18",
+    "@tiptap/starter-kit": "3.0.0-beta.18",
     "@unpic/react": "^0.1.14",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -38,7 +40,6 @@
     "isbot": "^4.1.0",
     "lowlight": "^3.1.0",
     "lucide-react": "^0.390.0",
-    "novel": "^1.0.2",
     "pocketbase": "^0.25.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -79,5 +80,10 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "packageManager": "pnpm@9.4.0"
+  "packageManager": "pnpm@9.4.0",
+  "pnpm": {
+    "overrides": {
+      "prosemirror-model": "1.25.1"
+    }
+  }
 }
