@@ -3,10 +3,11 @@ import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
 
 import { BubbleMenu } from "./bubble-menu";
+import { handleSlashCommandKeyDown, SlashCommand } from "./slash-command";
 
 export default () => {
   const editor = useEditor({
-    extensions: [StarterKit, Highlight],
+    extensions: [StarterKit, Highlight, SlashCommand],
     content: `
       <p>Hello World</p>
     `,
@@ -21,6 +22,7 @@ export default () => {
         class:
           "prose dark:prose-invert prose-headings:font-title font-default focus:outline-none",
       },
+      handleKeyDown: (_view, event) => handleSlashCommandKeyDown(event),
     },
   });
 

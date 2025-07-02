@@ -168,35 +168,6 @@ pre {
 }
 
 /* Editor V2 styling */
-
-/* Bubble menu */
-.bubble-menu {
-  background-color: hsl(var(--popover));
-  border: 1px solid hsl(var(--muted));
-  border-radius: 0.7rem;
-  /* box-shadow: hsl(var(--muted)); */
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  color: hsl(var(--muted-foreground));
-
-  button {
-    background-color: unset;
-    color: hsl(var(--muted-foreground));
-    &:hover {
-      color: hsl(var(--primary));
-    }
-
-    &.is-active {
-      color: hsl(var(--primary));
-
-      &:hover {
-        color: hsl(var(--muted-foreground));
-      }
-    }
-  }
-}
-
 /*
 .tiptap {
   :first-child {
