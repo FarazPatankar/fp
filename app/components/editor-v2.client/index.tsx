@@ -1,9 +1,12 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Highlight from "@tiptap/extension-highlight";
+
+import { BubbleMenu } from "./bubble-menu";
 
 export default () => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, Highlight],
     content: `
       <p>Hello World</p>
     `,
@@ -21,5 +24,10 @@ export default () => {
     },
   });
 
-  return <EditorContent editor={editor} />;
+  return (
+    <>
+      {editor && <BubbleMenu editor={editor} />}
+      <EditorContent editor={editor} />
+    </>
+  );
 };

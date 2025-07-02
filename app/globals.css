@@ -75,6 +75,9 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
 
+    /* Custom */
+    --pink: #f9a8d4;
+
     /* Novel */
     --novel-highlight-default: #000000;
     --novel-highlight-purple: #3f2c4b;
@@ -165,6 +168,34 @@ pre {
 }
 
 /* Editor V2 styling */
+
+/* Bubble menu */
+.bubble-menu {
+  background-color: hsl(var(--popover));
+  border: 1px solid hsl(var(--muted));
+  border-radius: 0.7rem;
+  /* box-shadow: hsl(var(--muted)); */
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  color: hsl(var(--muted-foreground));
+
+  button {
+    background-color: unset;
+    color: hsl(var(--muted-foreground));
+    &:hover {
+      color: hsl(var(--primary));
+    }
+
+    &.is-active {
+      color: hsl(var(--primary));
+
+      &:hover {
+        color: hsl(var(--muted-foreground));
+      }
+    }
+  }
+}
 
 /*
 .tiptap {

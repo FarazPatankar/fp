@@ -62,6 +62,9 @@ importers:
       '@tcgdex/sdk':
         specifier: ^2.5.1
         version: 2.5.1(encoding@0.1.13)
+      '@tiptap/extension-highlight':
+        specifier: 3.0.0-beta.19
+        version: 3.0.0-beta.19(@tiptap/core@3.0.0-beta.18(@tiptap/pm@3.0.0-beta.18))
       '@tiptap/html':
         specifier: 3.0.0-beta.18
         version: 3.0.0-beta.18(@tiptap/core@3.0.0-beta.18(@tiptap/pm@3.0.0-beta.18))(@tiptap/pm@3.0.0-beta.18)
@@ -1510,6 +1513,11 @@ packages:
     resolution: {integrity: sha512-XF8+5ipKJUS74+bv6zjRERQIJCxcxgzSJ0LC1jSjd0ViBh+xvgvRmjDFHrFLGFdpqgzgNJEB6lx+bf00dI0yWA==}
     peerDependencies:
       '@tiptap/core': 3.0.0-beta.18
+
+  '@tiptap/extension-highlight@3.0.0-beta.19':
+    resolution: {integrity: sha512-sOeyYvzl4xDqisbBk/z9k2qiBuim7iDKRZCiNARIIdqSAcNOuYuBDv9sZzW6ggmNRp1iHByBSaS5OUK9SY44YQ==}
+    peerDependencies:
+      '@tiptap/core': 3.0.0-beta.19
 
   '@tiptap/extension-horizontal-rule@3.0.0-beta.18':
     resolution: {integrity: sha512-kgdQxqAAow/3v3He91/PLt9VHuK0blKKXK4aQIC8t7ndf/I4kbgVRTB23EyqbzKvGv8SRfHFn3bTZXJiQ4fsmA==}
@@ -5528,6 +5536,10 @@ snapshots:
       '@tiptap/core': 3.0.0-beta.18(@tiptap/pm@3.0.0-beta.18)
 
   '@tiptap/extension-heading@3.0.0-beta.18(@tiptap/core@3.0.0-beta.18(@tiptap/pm@3.0.0-beta.18))':
+    dependencies:
+      '@tiptap/core': 3.0.0-beta.18(@tiptap/pm@3.0.0-beta.18)
+
+  '@tiptap/extension-highlight@3.0.0-beta.19(@tiptap/core@3.0.0-beta.18(@tiptap/pm@3.0.0-beta.18))':
     dependencies:
       '@tiptap/core': 3.0.0-beta.18(@tiptap/pm@3.0.0-beta.18)
 
