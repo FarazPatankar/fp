@@ -79,5 +79,12 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "packageManager": "pnpm@9.4.0"
+  "packageManager": "pnpm@9.4.0",
+  "pnpm": {
+    "overrides": {
+      "prosemirror-model": "^1.25.1",
+      "prosemirror-transform": "^1.10.4",
+      "prosemirror-state": "^1.4.3"
+    }
+  }
 }
